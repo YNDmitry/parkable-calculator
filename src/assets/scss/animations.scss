@@ -1,0 +1,10 @@
+.slideDown-enter-active,
+.slideDown-leave-active {
+  transition: all 0.5s linear;
+  max-height: 500px;
+}
+
+.slideDown-enter-from,
+.slideDown-leave-to {
+  max-height: 0;
+}
