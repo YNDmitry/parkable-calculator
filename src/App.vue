@@ -1,28 +1,14 @@
 <template>
   <section class="app-wrapper">
     <div class="calc">
-      <div class="calc__main">
+      <div class="calc__main" v-show="tab === 1">
         <h1>Parkable ROI calculator</h1>
         <div class="calc__main-actions">
-          <div class="calc__slider">
-            <div>
-              Total number of car parks: 
-              <span class="calc__span">{{ firstSlider.currentValue }}</span>
-            </div>
-            <v-slider
-              class="calc__slider-inp"
-              v-model="firstSlider.value"
-              :tooltips="false"
-              :lazy="false"
-              :min="firstSlider.min"
-              :max="firstSlider.max"
-              @update="setFirstSliderValue"
-            ></v-slider>
-          </div>
-
           <app-big-slider
-            @dropValues="getMultiplesValues"
+            @tBays="getTBays"
+            @dropValues="getCalcValues"
           ></app-big-slider>
+          <input type="text" v-model="TotalBays" style="display: none;">
 
           <div class="calc__slider">
             <div>
@@ -42,7 +28,7 @@
           </div>
 
           <div class="calc__radios">
-            <div>Are you moving to flexible working? </div>
+            <div>Do you have a flexible workplace?</div>
 
             <div class="calc__radios-wrapper">
               <label 
@@ -65,7 +51,7 @@
           </div>
 
           <div class="calc__radios">
-            <div>Will you charge staff for parking?</div>
+            <div>Will you charge for parking?</div>
 
             <div class="calc__radios-wrapper">
               <label 
@@ -87,25 +73,23 @@
             </div>
           </div>
 
-          <transition name="slideDown">
-            <div class="calc__slider" v-if="parking === '0'">
-              <div>
-                Daily Parking rate:
-                <span class="calc__span">${{ rateSlider.value }} <span>per day</span></span>
-              </div>
-              <v-slider
-                class="calc__slider-inp"
-                v-model="rateSlider.value"
-                :tooltips="false"
-                :lazy="false"
-                :min="rateSlider.min"
-                :max="rateSlider.max"
-                :step="2"
-              ></v-slider>
+          <div class="calc__slider" v-if="parking === '0'">
+            <div>
+              Daily parking rate:
+              <span class="calc__span">${{ rateSlider.value }} <span>per day</span></span>
             </div>
-          </transition>
+            <v-slider
+              class="calc__slider-inp"
+              v-model="rateSlider.value"
+              :tooltips="false"
+              :lazy="false"
+              :min="rateSlider.min"
+              :max="rateSlider.max"
+              :step="2"
+            ></v-slider>
+          </div>
 
-          <div class="calc__radios" style="display:none;">
+          <div class="calc__radios">
             <div>Country</div>
 
             <div class="calc__radios-wrapper">
@@ -116,90 +100,67 @@
                 v-for="item in countries"
                 :key="item"
               >
-                <input type="radio" v-model="country" :name="item" :value="item" :id="item">
+                <input type="radio" 
+                  @change="setCountry" 
+                  v-model="country" 
+                  :name="item" 
+                  :value="item" 
+                  :id="item"
+                >
                 <span>{{ item }}</span>
               </label>
             </div>
           </div>
 
-          <div class="calc__txt-sm">All ROI figures are estimates based on Parkable subscriber data. </div>
+          <div class="calc__txt-sm">*All ROI figures are estimates based on Parkable subscriber data. Conditions apply.</div>
         </div>
       </div>
+      <app-tab-2 
+        @updateTab="getTab"
+        v-show="tab === 2"
+      ></app-tab-2>
       <div class="calc__aside">
-        <div class="calc__aside-info">
-          <div class="calc__aside-info-col">
-            <h1>
-              <span>Approx.</span><br>
-              {{ revenue }} in Revenue 
-            </h1>
-            <p>
-              Annual estimate before cost of transactions fees, 
-              sales tax, subscription and software costs.
-            </p>
-          </div>
-
-          <transition name="slideDown">
-            <div class="calc__aside-info-col" v-if="parking === '0'">
-              <h1>
-                <span>Equivilent to</span><br>
-                40 extra parks
-              </h1>
-              <p>
-                Based on better allocation and sharing of under-used parks.
-              </p>
-            </div>
-          </transition>
-
-          <div class="calc__aside-list">
-            <div class="calc__aside-list-label">Other benefits:</div>
-            <ul>
-              <li>Save up to {{ hoursSlider.time }} hours on admin</li>
-              <li>Better staff & tenant experiences</li>
-              <li>Real-time visibility to fully utilise parks</li>
-              <li>Up to 3x more parkers per space</li>
-              <li v-if="working === '0'">Better ROI for your flexible workplaces</li>
-              <li>Onboarding, training & support</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="calc__aside-actions">
-          <div class="calc__txt-sm">Get more information and a ROI breakdown.</div>
-          <button class="btn-primary">
-            Get a Breakdown 
-            <icon-arrow-right></icon-arrow-right>
-          </button>
-        </div>
+        <app-aside-tab-1
+          :revenue="revenue"
+          :working="working"
+          :parking="parking"
+          :EAParks="EAParks"
+          :time="hoursSlider.time"
+          @updateTab="getTab"
+          v-if="tab === 1"
+        ></app-aside-tab-1>
+        <app-aside-tab-2
+          :time="hoursSlider.time"
+          v-else
+        ></app-aside-tab-2>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-  import iconArrowRight from './components/icons/iconArrowRight.vue'
   import VSlider from '@vueform/slider'
+  import iconArrowRight from './components/icons/iconArrowRight.vue'
   import AppBigSlider from './components/appBigSlider.vue'
+  import AppAsideTab2 from './components/appAside/appAsideTab2.vue'
+  import AppAsideTab1 from './components/appAside/appAsideTab1.vue'
+  import AppTab2 from './components/appTab2.vue'
 
   export default {
     components: {
-      iconArrowRight,
       VSlider,
-      AppBigSlider
+      iconArrowRight,
+      AppBigSlider,
+      AppAsideTab2,
+      AppAsideTab1,
+      AppTab2
     },
 
     data() {
       return {
-        firstSlider: {
-          min: 0,
-          max: 11,
-          step: 1,
-          value: 0,
-          range: [
-            '10', '20', '30', '50', '75', '100', 
-            '150', '200', '300', '500', '750', '1000+'
-          ],
-          currentValue: '10',
-        },
+        tab: 1,
+        
+        sliderTBays: null,
         
         rateSlider: {
           min: 2,
@@ -220,7 +181,7 @@
 
         parking: '0',
         working: '0',
-        country: 'AU',
+        country: 'NZ',
         
         revenue: null,
 
@@ -232,55 +193,76 @@
         WDPerYear: 260,
         LSDaysPerYear: 30,
         AWFHDays: 92,
-        AWorkDays: 220,
+        AWorksDays: null,
         SalesTax: 10,
         DOFCSession: null,
         DOFUAllocated: null,
         TDOFCSession: null,
         TACPSession: null,
-        UOCPSession: 80
+        UOCPSession: 76,
+
+        DYEAPIUnused: null,
+        APUPercentage: null,
+        EAAParks: null,
+        EAParks: null,
+        TCIncrease: null
       }
     },
 
     mounted() {
       this.setRevenue()
+      this.setHours(this.hoursSlider.value)
+      this.getTBays()
+      this.setEAAParks
+    },
+
+    updated() {
+      this.setEAAParks
     },
     
-    updated() {
-      this.setDOFCSession
-      this.setDOFUAllocated
-      this.setTDOFCSession
-      this.setTACPSession
-      
-      this.setRevenue()
-    },
-
-    watch: {
-      calkNumbers(val) {
-        console.log(val)
-      }
-    },
-
     computed: {
+      setAWorksDays() {
+        return this.WDPerYear - this.LSDaysPerYear - this.AWFHDays
+      },
+
       setDOFCSession() {
         const formula = this.TotalBays[1] * this.WDPerYear
         
-        return this.DOFCSession = Math.ceil(formula)
+        return this.DOFCSession = Math.round(formula)
       },
       
       setDOFUAllocated() {
         const formula = this.TotalBays[2] * (this.AWFHDays + this.LSDaysPerYear)
-        return this.DOFUAllocated = Math.ceil(formula)
+        return this.DOFUAllocated = Math.round(formula)
       },
 
       setTDOFCSession() {
         const formula = this.setDOFUAllocated + this.setDOFCSession
-        return this.TDOFCSession = Math.floor(formula)
+        return this.TDOFCSession = Math.round(formula)
       },
 
       setTACPSession() {
         return this.TACPSession = this.setTDOFCSession
       },
+
+      setDYEAPIUnused() {
+        return this.DYEAPIUnused = this.WDPerYear - this.setAWorksDays
+      },
+
+      setAPUPercentage() {
+        return this.APUPercentage = (this.setDYEAPIUnused / this.WDPerYear).toFixed(1)
+      },
+
+      setEAAParks() {
+        const result = Math.round(this.setAPUPercentage * this.TotalBays[2])
+        this.EAAParks = result
+        this.EAParks = result
+      },
+
+      setTCIncrease() {
+        return this.TCIncrease = 
+          ((this.EAParks / this.sliderTBays) * 100).toFixed(1)
+      }
     },
 
     watch: {
@@ -290,17 +272,23 @@
         } else {
           this.AWFHDays = 10
         }
-        this.setDOFUAllocated
+        return this.setRevenue()
       }
     },
 
     methods: {
-      getMultiplesValues(data) {
-        return this.TotalBays = data
+      getTBays(data) {
+        this.sliderTBays = data
+        return this.setRevenue()
       },
 
-      setFirstSliderValue(value) {
-        this.firstSlider.currentValue = this.firstSlider.range[value]
+      getCalcValues(data) {
+        this.TotalBays = data
+        return this.setRevenue()
+      },
+
+      getTab(currentTab) {
+        this.tab = currentTab
       },
 
       setHours(value) {
@@ -308,11 +296,40 @@
       },
 
       setRevenue() {
-        const formula = (this.UOCPSession / 100) * this.TACPSession * this.DailyCharge
+        const formula = this.setTDOFCSession * this.DailyCharge * (this.UOCPSession / 100)
 
-        console.log(this.UOCPSession / 100)
         return this.revenue = formula
       },
+
+      setCountry() {
+        if (this.country === 'UK') {
+          this.SBCharing = 7
+          this.VBCharing = 10
+        } else if (this.country === 'USA' || 'AU' || 'NZ') {
+          this.SBCharing = 10
+          this.VBCharing = 15
+        }
+
+        if (this.country === 'UK') {
+          this.LSDaysPerYear = 32.4
+        } else if (this.country === 'USA') {
+          this.LSDaysPerYear = 15
+        } else if (this.country === 'NZ' || 'AU') {
+          this.LSDaysPerYear = 30 
+        }
+
+        if (this.country === 'UK') {
+          this.SalesTax = 20
+        } else if (this.country === 'USA') {
+          this.SalesTax = 7.50
+        } else if (this.country === 'NZ') {
+          this.SalesTax = 15
+        } else if (this.country === 'AU') {
+          this.SalesTax = 10
+        }
+
+        this.setRevenue()
+      }
     }
   }
 </script>

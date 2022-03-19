@@ -13,6 +13,15 @@ body {
   color: black;
 }
 
+h1, h2, h3 {
+  line-height: 28px;
+  color: black;
+}
+
+label {
+  font-weight: 400;
+}
+
 h1, p {
   margin: 0;
 }
@@ -20,6 +29,19 @@ h1, p {
 button {
   cursor: pointer;
   border: 0;
+}
+
+ul {
+  padding-left: 0px;
+  margin-bottom: 0;
+  margin-top: 5px;
+
+  & li {
+    padding-left: 19px;
+    margin-bottom: 8px;
+    list-style: none;
+    background: url('https://uploads-ssl.webflow.com/618d84f7039384e134b466ec/6236630bd589f11b55be16e6_list-dot.svg') transparent no-repeat left 10px;
+  }
 }
 
 .btn-primary {
@@ -34,12 +56,17 @@ button {
   justify-content: center;
   gap: 11px;
   font-size: 33px;
+
+  @media screen and (max-width: 991px) {
+    font-size: 20px;
+    padding: 15px 30px;
+  }
 }
 
 .app-wrapper {
   background-color: #3581C2;
   min-height: 100vh;
-  padding: 50px 0;
+  padding: 30px 0;
   display: flex;
   justify-items: center;
   align-items: center;
@@ -55,17 +82,55 @@ button {
   border-radius: 12px;
   overflow: hidden;
   margin: 0 auto;
+
+  @media screen and (max-width: 768px){
+    font-size: 16px;
+  }
+
+  @media screen and (max-width: 479px){
+    flex-direction: column;
+  }
   
   &__main {
     width: 100%;
     padding: 40px;
 
+    @media screen and (max-width: 768px){
+      padding: 20px;
+    }
+
+    @media screen and (max-width: 479px){
+      padding: 12px;
+    }
+
     & h1 {
-      font-size: 32px;
+      font-size: 38px;
+
+      @media screen and (max-width: 768px){
+        font-size: 25px;
+      }
     }
 
     &-actions {
       margin-top: 48px;
+    }
+
+    &-back {
+      background-color: transparent;
+      font-size: 20px;
+      color: #667085;
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+      padding: 0;
+
+      & svg {
+        margin-right: 12px;
+      }
+    }
+
+    &-form {
+      margin-top: 40px;
     }
   }
   
@@ -76,9 +141,39 @@ button {
     padding: 45px 40px 30px 50px;
     background-color: #DEECFA;
 
+    @media screen and (max-width: 991px) {
+      max-width: 300px;
+      padding: 35px 20px 20px 30px;
+    }
+
+    @media screen and (max-width: 479px){
+      max-width: none; 
+      padding: 30px 15px;
+    }
+
     & p {
       font-size: 10px;
       line-height: 120%;
+    }
+
+    &-head {
+      text-align: center;
+      padding: 0px 20px;
+      margin-bottom: 20px;
+
+      & p {
+        font-size: 24px;
+        line-height: 140%;
+      }
+
+      & svg {
+        margin-bottom: 25px;
+      }
+    }
+
+    & ul > li {
+      line-height:100%;
+      background-position: 0px;
     }
 
     & h1 {
@@ -88,9 +183,17 @@ button {
       color: #0381C7;
       margin-bottom: 8px;
 
+      @media screen and (max-width: 768px){
+        font-size: 28px;
+      }
+
       & span {
         font-size: 16px;
         margin-bottom: -20px;
+
+        @media screen and (max-width: 768px){
+          font-size: 14px;
+        }
       }
     }
 
@@ -103,7 +206,7 @@ button {
       background-color: white;
       border-radius: 4px;
       position: relative;
-      background-image: url('../images/file-bg.svg');
+      background-image: url('https://uploads-ssl.webflow.com/618d84f7039384e134b466ec/6236630bfb70cf5c79c82130_file-bg.svg');
       background-repeat: no-repeat;
       background-position: top right;
 
@@ -113,7 +216,7 @@ button {
         top: -12px;
         width: 68px;
         height: 25px;
-        background: url('../images/file-decor.svg') transparent no-repeat center center / cover;
+        background: url('https://uploads-ssl.webflow.com/618d84f7039384e134b466ec/6236630be162136ff721f777_file-decor.svg') transparent no-repeat center center / cover;
       }
 
       &-col {
@@ -146,17 +249,8 @@ button {
         font-weight: 700;
       }
 
-      & ul {
-        padding-left: 0px;
-        margin-bottom: 0;
-        margin-top: 5px;
-
-        & li {
-          padding-left: 19px;
-          line-height: 180%;
-          list-style: none;
-          background: url('../images/list-dot.svg') transparent no-repeat left 7px;
-        }
+      &-cars {
+        position: absolute;
       }
     }
 
@@ -166,6 +260,29 @@ button {
       & .btn-primary {
         margin-top: 7px;
         margin-bottom: 20px;
+      }
+    }
+
+    &-col2 {
+      .calc__aside-info {
+        padding-bottom: 180px;
+        margin-bottom: 140px;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 38px;
+
+        &-col {
+          align-items: flex-start;
+        }
+
+        &:before {
+          margin: 0 auto;
+        }
+      }
+
+      .calc__aside-list-cars {
+        bottom: -120px;
+        left: -20px
       }
     }
   }
@@ -184,6 +301,10 @@ button {
       justify-content: space-between;
       align-items: center;
 
+      @media screen and (max-width: 991px) {
+        font-size: 13px;
+      }
+
       & div:nth-child(1) { color: #53B1FD; }
       & div:nth-child(2) { color: #93A842; }
       & div:nth-child(3) { color: #FDB022; }
@@ -199,6 +320,10 @@ button {
       padding: 15px;
       user-select: none;
       transition: width .05s ease;
+
+      @media screen and (max-width: 991px) {
+        transition: none;
+      }
 
       &:nth-child(1) { 
         background: #53B1FD; 
@@ -235,11 +360,11 @@ button {
         position: absolute;
         width: 40px;
         height: 60px;
-        border-radius: 100%;
-        background-image: url('../images/slider-resize-arrows.svg');
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: 24px 24px;
+      }
+
+      &__icon {
+        position: absolute;
+        pointer-events: none;
       }
 
       &:active {
@@ -268,6 +393,10 @@ button {
       --slider-handle-shadow: none;
       --slider-handle-shadow-active: none;
       --slider-handle-border: 6px solid #0381C7;
+
+      @media screen and (max-width: 768px){
+        max-width: 150px;
+      }
     }
   }
 
@@ -282,6 +411,7 @@ button {
     display: flex;
     align-items: center;
     transition: all 0.2s ease;
+    color: #3581C2;
 
     & input {
       display: none;
