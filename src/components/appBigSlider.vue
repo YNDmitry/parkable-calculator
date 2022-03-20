@@ -166,7 +166,7 @@ export default {
         this.tags.forEach((tag, idx) => {
           tag.value = this.settings.newValues[idx]
         })
-        return this.doDragging = false
+        this.doDragging = false
       }
     },
 

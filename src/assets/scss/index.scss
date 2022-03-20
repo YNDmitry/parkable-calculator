@@ -15,6 +15,7 @@ body {
 h1, h2, h3 {
   line-height: 38px;
   color: black;
+  font-weight: 700;
 }
 
 label {
@@ -33,13 +34,16 @@ button {
 ul {
   padding-left: 0px;
   margin-bottom: 0;
-  margin-top: 5px;
+  margin-top: 10px;
 
   & li {
     padding-left: 19px;
-    margin-bottom: 8px;
+    margin-bottom: 15px;
     list-style: none;
-    background: url('https://uploads-ssl.webflow.com/618d84f7039384e134b466ec/6236630bd589f11b55be16e6_list-dot.svg') transparent no-repeat left 10px;
+    font-size: 19px;
+    background: url('https://uploads-ssl.webflow.com/618d84f7039384e134b466ec/6236630bd589f11b55be16e6_list-dot.svg');
+    background-repeat: no-repeat;
+    background-position: top left;
   }
 }
 
@@ -47,7 +51,7 @@ ul {
   width: 100%;
   background-color: #0381C7;
   border-radius: 4px;
-  padding: 20px 50px;
+  padding: 27px 50px;
   color: white;
   font-weight: 700;
   display: flex;
@@ -68,13 +72,13 @@ ul {
   padding: 30px 0;
   display: flex;
   justify-items: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .calc {
   display: flex;
   width: 95%;
-  max-width: 1200px;
+  max-width: 1220px;
   font-size: 20px;
   line-height: 28px;
   background-color: #FAFAFA;
@@ -100,6 +104,13 @@ ul {
 
     @media screen and (max-width: 479px){
       padding: 12px;
+    }
+
+    & .calc__txt-sm {
+      max-width: 305px;
+      margin-left: auto;
+      text-align: right;
+      line-height: 100%;
     }
 
     & h1 {
@@ -137,7 +148,7 @@ ul {
     width: 100%;
     max-width: 500px;
     display: block;
-    padding: 45px 40px 30px 50px;
+    padding: 45px 30px 30px 30px;
     background-color: #DEECFA;
 
     @media screen and (max-width: 991px) {
@@ -246,6 +257,8 @@ ul {
       &-label {
         line-height: 140%;
         font-weight: 700;
+        font-size: 27px;
+        color: #0381C7;
       }
 
       &-cars {
@@ -258,7 +271,6 @@ ul {
 
       & .btn-primary {
         margin-top: 7px;
-        margin-bottom: 20px;
       }
     }
 
@@ -279,6 +291,12 @@ ul {
         }
       }
 
+      .calc__aside-list-label {
+        font-size: 20px;
+        color: black;
+        margin-bottom: 5px;
+      }
+
       .calc__aside-list-cars {
         bottom: -120px;
         left: -20px
@@ -291,8 +309,10 @@ ul {
     height: 60px;
     border-radius: 4px;
     display: flex;
+    justify-content: center;
 
     &-head {
+      margin-bottom: 10px;
       font-size: 20px;
       font-weight: 600;
       letter-spacing: 0.02em;
@@ -316,13 +336,8 @@ ul {
       position: relative;
       color: white;
       font-weight: 700;
-      padding: 15px;
+      padding: 0px 5%;
       user-select: none;
-      transition: width .05s ease;
-
-      @media screen and (max-width: 991px) {
-        transition: none;
-      }
 
       &:nth-child(1) { 
         background: #53B1FD; 
@@ -411,6 +426,7 @@ ul {
     align-items: center;
     transition: all 0.2s ease;
     color: #3581C2;
+    pointer-events: none;
 
     & input {
       display: none;
@@ -438,6 +454,13 @@ ul {
       height: 38px;
       border: 2px solid #3581C2;
       border-radius: 4px;
+      cursor: pointer;
+
+      &.wrapper--countries {
+        & label {
+          pointer-events: all;
+        }
+      }
     }
   }
 

@@ -29,22 +29,21 @@
 
           <div class="calc__radios">
             <div>Do you have a flexible workplace?</div>
-
-            <div class="calc__radios-wrapper">
+            <div class="calc__radios-wrapper" @click="toggleWorks(working)">
               <label 
                 for="working-1" 
                 class="calc__radio-btn"
-                :class="{ 'active': working === '0' ? true : false }"
+                :class="{ 'active': working === '1' ? true : false }"
               >
-                <input type="radio" v-model="working" name="working" value="0" id="working-1">
+                <input type="radio" v-model="working" name="working" value="1" id="working-1">
                 <span>Yes</span>
               </label>
               <label 
                 for="working-2" 
                 class="calc__radio-btn"
-                :class="{ 'active': working === '1' ? true : false }"
+                :class="{ 'active': working === '0' ? true : false }"
               >
-                <input type="radio" v-model="working" name="working" value="1" id="working-2">
+                <input type="radio" v-model="working" name="working" value="0" id="working-2">
                 <span>No</span>
               </label>
             </div>
@@ -53,27 +52,27 @@
           <div class="calc__radios">
             <div>Will you charge for parking?</div>
 
-            <div class="calc__radios-wrapper">
+            <div class="calc__radios-wrapper" @click="toggleParking(parking)">
               <label 
                 for="parking-1" 
                 class="calc__radio-btn"
-                :class="{ 'active': parking === '0' ? true : false }"
-              >
-                <input type="radio" v-model="parking" name="parking" value="0" id="parking-1">
-                <span>Yes</span>
-              </label>
-              <label 
-                for="parking-2" 
-                class="calc__radio-btn"
                 :class="{ 'active': parking === '1' ? true : false }"
               >
-                <input type="radio" v-model="parking" name="parking" value="1" id="parking-2">
+                <input type="radio" v-model="parking" name="parking" value="1" id="parking-1">
+                <span>Yes</span>
+              </label>
+              <label
+                for="parking-2" 
+                class="calc__radio-btn"
+                :class="{ 'active': parking === '0' ? true : false }"
+              >
+                <input type="radio" v-model="parking" name="parking" value="0" id="parking-2">
                 <span>No</span>
               </label>
             </div>
           </div>
 
-          <div class="calc__slider" v-if="parking === '0'">
+          <div class="calc__slider" v-if="parking === '1'">
             <div>
               Daily parking rate:
               <span class="calc__span">${{ rateSlider.value }} <span>per day</span></span>
@@ -92,7 +91,7 @@
           <div class="calc__radios">
             <div>Country</div>
 
-            <div class="calc__radios-wrapper">
+            <div class="calc__radios-wrapper wrapper--countries">
               <label 
                 :for="item" 
                 class="calc__radio-btn"
@@ -153,7 +152,7 @@
       AppBigSlider,
       AppAsideTab2,
       AppAsideTab1,
-      AppTab2
+      AppTab2,
     },
 
     data() {
@@ -179,9 +178,9 @@
           'USA', 'UK', 'AU', 'NZ'
         ],
 
-        parking: '0',
-        working: '0',
-        country: 'NZ',
+        parking: '1',
+        working: '1',
+        country: 'AU',
         
         revenue: null,
 
@@ -272,7 +271,7 @@
 
     watch: {
       working(val) {
-        if (val === '0') {
+        if (val === '1') {
           this.AWFHDays = 92
         } else {
           this.AWFHDays = 10
@@ -282,9 +281,9 @@
 
       parking(val) {
         if (val === '1') {
-          this.rateSlider.value = 0
-        } else {
           this.rateSlider.value = 14
+        } else {
+          this.rateSlider.value = 0
         }
         return this.setRevenue()
       }
@@ -302,18 +301,22 @@
       },
 
       changeTab(currentTab) {
+        const appTop = document.querySelector('#app').offsetTop
+
         this.tab = currentTab
 
         let formData = {
           'Total Bays': this.sliderTBays === undefined ? '10' : this.sliderTBays,
           'Parks': this.TotalBays,
           'Parking admin hours/week': this.hoursSlider.time,
-          'Flexible workplace': this.workplace === '0' ? 'Yes' : 'No',
-          'Charge for parking?': this.parking === '0' ? 'Yes' : 'No',
+          'Flexible workplace': this.workplace === '1' ? 'Yes' : 'No',
+          'Charge for parking?': this.parking === '1' ? 'Yes' : 'No',
           'Daily parking rate': '$' + this.rateSlider.value + 'per day',
           'Country': this.country
         }
         sessionStorage.setItem('formData', JSON.stringify(formData))
+
+        return window.scrollTo(0, appTop)
       },
 
       setHours(value) {
@@ -359,6 +362,14 @@
         }
 
         this.setRevenue()
+      },
+
+      toggleWorks(value) {
+        return value === '1' ? this.working = '0' : this.working = '1'
+      },
+
+      toggleParking(value) {
+        return value === '1' ? this.parking = '0' : this.parking = '1'
       }
     }
   }

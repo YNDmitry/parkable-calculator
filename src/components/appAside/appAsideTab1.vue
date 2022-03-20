@@ -1,7 +1,7 @@
 <template>
   <div class="calc__aside-col1">
     <div class="calc__aside-info">
-      <div class="calc__aside-info-col">
+      <div class="calc__aside-info-col" v-if="parking === '1'">
         <h1>
           <span>Generate up to*</span><br>
           {{ convertToUSD(revenue) }} in Revenue 
@@ -12,7 +12,7 @@
         </p>
       </div>
 
-      <div class="calc__aside-info-col" v-if="parking === '0'">
+      <div class="calc__aside-info-col">
         <h1>
           <span>Equivalent to*</span><br>
           {{ EAParks }} extra parks
@@ -23,13 +23,13 @@
       </div>
 
       <div class="calc__aside-list">
-        <div class="calc__aside-list-label">Other benefits:</div>
+        <div class="calc__aside-list-label">Extra benefits:</div>
         <ul>
           <li>Save up to {{ time }} hours on admin*</li>
           <li>Better staff & tenant experiences</li>
           <li>Real-time visibility to fully utilise parks</li>
           <li>Easy booking and sharing</li>
-          <li v-if="working === '0'">Better ROI for your flexible workplaces</li>
+          <li v-if="working === '1'">Better ROI for your flexible workplaces</li>
           <li>Onboarding, training & support</li>
         </ul>
       </div>
@@ -38,7 +38,7 @@
     <div class="calc__aside-actions">
       <div class="calc__txt-sm">Get more information and a ROI breakdown.</div>
       <button class="btn-primary" @click="changeTab(2)">
-        Get a Breakdown 
+        Get a breakdown 
         <icon-arrow-right></icon-arrow-right>
       </button>
     </div>
@@ -76,6 +76,7 @@
         return new Intl.NumberFormat('en-US', {
           style: 'currency',
           currency: 'USD',
+          minimumFractionDigits: 0
         }).format(someNumber)
       },
 
