@@ -139,8 +139,6 @@ export default {
     setFirstSliderValue(value) {
       this.currentValue = this.firstSlider.range[value]
 
-      console.log(this.$refs.ss)
-
       return this.$emit('tBays', this.currentValue)
     },
 

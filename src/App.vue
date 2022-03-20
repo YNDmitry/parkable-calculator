@@ -116,7 +116,7 @@
         </div>
       </div>
       <app-tab-2 
-        @updateTab="getTab"
+        @updateTab="changeTab"
         v-show="tab === 2"
       ></app-tab-2>
       <div class="calc__aside">
@@ -126,7 +126,7 @@
           :parking="parking"
           :EAParks="EAParks"
           :time="hoursSlider.time"
-          @updateTab="getTab"
+          @updateTab="changeTab"
           v-if="tab === 1"
         ></app-aside-tab-1>
         <app-aside-tab-2
@@ -265,7 +265,7 @@
       setTCIncrease() {
         return this.TCIncrease = 
           ((this.EAParks / this.sliderTBays) * 100).toFixed(1)
-      }
+      },
     },
 
     watch: {
@@ -274,6 +274,15 @@
           this.AWFHDays = 92
         } else {
           this.AWFHDays = 10
+        }
+        return this.setRevenue()
+      },
+
+      parking(val) {
+        if (val === '1') {
+          this.rateSlider.value = 0
+        } else {
+          this.rateSlider.value = 14
         }
         return this.setRevenue()
       }
@@ -290,8 +299,19 @@
         return this.setRevenue()
       },
 
-      getTab(currentTab) {
+      changeTab(currentTab) {
         this.tab = currentTab
+
+        let formData = {
+          'Total Bays': this.sliderTBays === undefined ? '10' : this.sliderTBays,
+          'Parks': this.TotalBays,
+          'Parking admin hours/week': this.hoursSlider.time,
+          'Flexible workplace': this.workplace === '0' ? 'Yes' : 'No',
+          'Charge for parking?': this.parking === '0' ? 'Yes' : 'No',
+          'Daily parking rate': '$' + this.rateSlider.value + 'per day',
+          'Country': this.country
+        }
+        sessionStorage.setItem('formData', JSON.stringify(formData))
       },
 
       setHours(value) {
@@ -299,9 +319,14 @@
       },
 
       setRevenue() {
-        const formula = this.setTDOFCSession * this.rateSlider.value * (this.UOCPSession / 100)
+        let value
+        if (this.rateSlider.value !== 0) {
+          value = this.setTDOFCSession * this.rateSlider.value * (this.UOCPSession / 100)
+        } else {
+          value = this.setTDOFCSession * (this.UOCPSession / 100)
+        }
 
-        return this.revenue = formula
+        return this.revenue = value
       },
 
       setCountry() {
