@@ -186,7 +186,6 @@
         revenue: null,
 
         TotalBays: null,
-        DailyCharge: 5,
         SBCharing: 10,
         VBCharing: 10,
         AgencyFee: 15,
@@ -218,6 +217,10 @@
 
     updated() {
       this.setEAAParks
+
+      if (this.rateSlider.value) {
+        this.setRevenue()
+      }
     },
     
     computed: {
@@ -296,7 +299,7 @@
       },
 
       setRevenue() {
-        const formula = this.setTDOFCSession * this.DailyCharge * (this.UOCPSession / 100)
+        const formula = this.setTDOFCSession * this.rateSlider.value * (this.UOCPSession / 100)
 
         return this.revenue = formula
       },
