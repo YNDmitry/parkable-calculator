@@ -59,7 +59,7 @@
         type: String
       },
       EAParks: {
-        type: Number
+        type: String
       },
       revenue: {
         type: Number

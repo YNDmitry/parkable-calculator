@@ -217,6 +217,8 @@
 
     updated() {
       this.setEAAParks
+      this.setDYEAPIUnused
+      this.setTCIncrease
 
       if (this.rateSlider.value) {
         this.setRevenue()
@@ -225,7 +227,7 @@
     
     computed: {
       setAWorksDays() {
-        return this.WDPerYear - this.LSDaysPerYear - this.AWFHDays
+        return this.AWorksDays = this.WDPerYear - this.LSDaysPerYear - this.AWFHDays
       },
 
       setDOFCSession() {
@@ -253,13 +255,13 @@
       },
 
       setAPUPercentage() {
-        return this.APUPercentage = (this.setDYEAPIUnused / this.WDPerYear).toFixed(1)
+        return this.APUPercentage = ((this.setDYEAPIUnused / this.WDPerYear) * 100).toFixed(1)
       },
 
       setEAAParks() {
-        const result = Math.round(this.setAPUPercentage * this.TotalBays[2])
+        const result = ((this.setAPUPercentage * this.TotalBays[2]) / 100).toFixed(1)
         this.EAAParks = result
-        this.EAParks = result
+        return this.EAParks = result
       },
 
       setTCIncrease() {

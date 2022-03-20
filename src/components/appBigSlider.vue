@@ -20,9 +20,7 @@
     </div>
     <div class="calc__big-slider-wrapper">
       <div class="calc__big-slider-head">
-        <div>Allocated parks</div>
-        <div>Casual parks</div>
-        <div>Visitor parks</div>
+        <div v-for="tag in tags" :key="tag">{{ tag.name }}</div>
       </div>
       <div class="calc__big-slider" ref="bigSlider">
         <div
@@ -81,14 +79,16 @@ export default {
 
       tags: [
         {
-          name: 'Allocated Parks',
-          value: 50
-        }, {
-          name: 'Casual Parks',
-          value: 40
-        }, {
           name: 'Visitor Parks',
           value: 10
+        },
+        {
+          name: 'Casual Parks',
+          value: 40
+        }, 
+        {
+          name: 'Allocated Parks',
+          value: 50
         }
       ],
 
