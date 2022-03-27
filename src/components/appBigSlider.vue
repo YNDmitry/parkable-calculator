@@ -9,7 +9,6 @@
       </div>
       <v-slider
         class="calc__slider-inp"
-        ref="ss"
         v-model="firstSlider.value"
         :tooltips="false"
         :lazy="false"
@@ -68,26 +67,26 @@ export default {
         min: 0,
         max: 11,
         step: 1,
-        value: 0,
+        value: 5,
         range: [
           '10', '20', '30', '50', '75', '100', 
           '150', '200', '300', '500', '750', '1000'
         ],
       },
-      currentValue: '10',
+      currentValue: '100',
       currentTarget: null,
 
       tags: [
         {
-          name: 'Visitor Parks',
+          name: 'Visitor parks',
           value: 10
         },
         {
-          name: 'Casual Parks',
+          name: 'Casual parks',
           value: 40
         }, 
         {
-          name: 'Allocated Parks',
+          name: 'Allocated parks',
           value: 50
         }
       ],

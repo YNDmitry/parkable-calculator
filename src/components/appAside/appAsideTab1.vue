@@ -4,7 +4,7 @@
       <div class="calc__aside-info-col" v-if="parking === '1'">
         <h1>
           <span>Generate up to*</span><br>
-          {{ convertToUSD(revenue) }} in Revenue 
+          {{ convertToUSD(revenue) }} in revenue 
         </h1>
         <p>
           Annual estimate before cost of transactions fees, 
@@ -12,10 +12,10 @@
         </p>
       </div>
 
-      <div class="calc__aside-info-col">
+      <div class="calc__aside-info-col" v-if="EAParks > 0">
         <h1>
           <span>Equivalent to*</span><br>
-          {{ EAParks }} extra parks
+          {{ Math.round(EAParks) }} extra parks
         </h1>
         <p>
           Based on better allocation and sharing of under-used parks.
@@ -26,7 +26,7 @@
         <div class="calc__aside-list-label">Extra benefits:</div>
         <ul>
           <li>Save up to {{ time }} hours on admin*</li>
-          <li>Better staff & tenant experiences</li>
+          <li>Easy booking and sharing</li>
           <li>Real-time visibility to fully utilise parks</li>
           <li>Easy booking and sharing</li>
           <li v-if="working === '1'">Better ROI for your flexible workplaces</li>
@@ -53,10 +53,12 @@
 
     props: { 
       working: {
-        type: String
+        type: String,
+        default: '1'
       },
       parking: {
-        type: String
+        type: String,
+        default: '1'
       },
       EAParks: {
         type: String
@@ -76,7 +78,8 @@
         return new Intl.NumberFormat('en-US', {
           style: 'currency',
           currency: 'USD',
-          minimumFractionDigits: 0
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
         }).format(someNumber)
       },
 

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import iconBack from './icons/iconBack.vue'
+  import iconBack from '../icons/iconBack.vue'
   export default {
     components: { iconBack },
     methods: {

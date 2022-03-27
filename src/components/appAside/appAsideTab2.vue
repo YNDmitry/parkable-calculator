@@ -2,7 +2,7 @@
   <div class="calc__aside-col2">
     <div class="calc__aside-head">
       <icon-logo></icon-logo>
-      <p>Unlock a smarter, user-friendly platform for managing parking.</p>
+      <p>Unlock a smarter, user-friendly<br>platform for managing parking.</p>
     </div>
     <div class="calc__aside-info">
       <div class="calc__aside-info-col">
@@ -15,7 +15,7 @@
           <li>Unlock new revenue</li>
         </ul>
       </div>
-      <img class="calc__aside-list-cars" src="https://uploads-ssl.webflow.com/618d84f7039384e134b466ec/62360548e9fbf8958458de6c_calc-cars.png" alt="">
+      <img class="calc__aside-list-cars" sizes="(max-width: 479px) 100vw, 420px" srcset="https://assets.website-files.com/618d84f7039384e134b466ec/62386d8db3ac6345b7cb4d9e_p-cars%20(1)-p-500.png 500w, https://assets.website-files.com/618d84f7039384e134b466ec/62386d8db3ac6345b7cb4d9e_p-cars%20(1).png 788w" alt="" src="https://assets.website-files.com/618d84f7039384e134b466ec/62386d8db3ac6345b7cb4d9e_p-cars%20(1).png">
     </div>
 
   </div>
