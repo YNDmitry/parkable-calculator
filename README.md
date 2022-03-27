@@ -5,7 +5,7 @@ A little documentation of the code to make it easier to understand
 
 All the logic is in a component named **AppTabsTab1.vue**
 
-**In order to publish the changes, enter the command**  ## npm run deploy
+In order to publish the changes, enter the command **npm run deploy**
 
 ## Value name = key in the code
 
